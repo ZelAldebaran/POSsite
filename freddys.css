@@ -702,3 +702,40 @@ tbody tr.inactive td:first-child{text-decoration:line-through;text-decoration-co
 @media(max-width:900px){
   .lines{min-height:0}
 }
+
+/* =================== CURRENT BILL — FULL-HEIGHT SIDE PANEL ===================
+   On the New order screen (desktop and tablet) the bill is pinned to the right
+   edge of the window and runs from the very top to the very bottom, so its
+   header sits in the same band as the page header instead of below it. The
+   page header stops short of it. The dish grid keeps its own column, so
+   nothing shifts. Phones (900px and under) keep the stacked layout above.
+   Delete this block to go back to the floating card. */
+@media(min-width:901px){
+  body[data-page="pos"]{--bill-w:396px}            /* 372px column + 24px page padding */
+  .ticket{
+    position:fixed;top:0;right:0;bottom:0;
+    width:var(--bill-w);height:100dvh;max-height:none;
+    border-radius:0;border-width:0 0 0 1px;z-index:25;
+  }
+  .ticket::after{display:none}
+
+  /* header: same height as the page header so the two rules line up */
+  .ticket-head{
+    flex:0 0 auto;height:76px;box-sizing:border-box;padding:0 16px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;border-bottom:1px solid var(--line);
+  }
+  .ticket-head .t{font-size:1.02rem}
+  .ticket-head .m{margin-top:3px;font-size:.68rem;text-align:center}
+
+  body[data-page="pos"] .topbar{margin-right:var(--bill-w);min-height:76px}
+
+  /* the list takes every spare pixel; the footer stays pinned to the bottom */
+  .lines{flex:1 1 auto;min-height:0;padding:8px 16px}
+  .ticket-foot{
+    flex:0 0 auto;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  }
+}
+@media(min-width:901px) and (max-width:1080px){
+  body[data-page="pos"]{--bill-w:354px}            /* 330px column + 24px */
+}
