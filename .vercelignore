@@ -1,0 +1,13 @@
+# Vercel serves outputDirectory "." as-is with no build step, so anything
+# not excluded here ships to the public internet. vercel.json carries the
+# response headers; this file carries what should never be requestable at
+# all: the SQL, the tooling, the docs, and the other hosts' own configs.
+
+supabase/
+scripts/
+docs/
+.github/
+*.md
+
+netlify.toml
+_headers

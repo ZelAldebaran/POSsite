@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2E3D33">
+<!-- The till, the sales log and the staff list have no business in a search
+     result. They render nothing without a session, so this is not about
+     leaking data — it is that searching the restaurant should turn up the
+     menu, not a login screen, and an indexed staff.html advertises the
+     admin surface to anyone curious. board.html is deliberately exempt. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Sign in | Freddy's Seafood Grill &amp; Restaurant</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png?v=47">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png?v=47">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png?v=47">
+<link rel="manifest" href="site.webmanifest?v=47">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Freddy's Seafood Grill &amp; Restaurant">
+<meta property="og:title" content="Sign in">
+<meta property="og:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="freddys.css?v=47">
+</head>
+<body data-page="login">
+
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-band">
+    <div class="est">EST &middot; 2024</div>
+    <div class="brand">FREDDY'S</div>
+    <div class="brand-sub">Seafood Grill &amp; Restaurant</div>
+  </div>
+    <div class="login-body">
+      <h1 id="loginTitle">Sign in</h1>
+      <p class="hint" id="loginHint">Counter terminal &mdash; Pagsanjan, Laguna</p>
+      <form id="loginForm" autocomplete="on">
+        <div class="field hidden" id="nameField">
+          <label for="lgName">Full name</label>
+          <input id="lgName" name="name" autocomplete="name" maxlength="80">
+        </div>
+        <div class="field">
+          <label for="lgEmail">Email</label>
+          <input id="lgEmail" name="email" type="email" autocomplete="username" required autocapitalize="none" spellcheck="false">
+        </div>
+        <div class="field">
+          <label for="lgPass">Password</label>
+          <input id="lgPass" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="lgSubmit">Sign in</button>
+        <div id="loginMsg" class="login-msg hidden"></div>
+      </form>
+      <div class="demo-keys">
+        <span id="swapPrompt">New member of staff?</span>
+        <button type="button" id="swapMode" style="color:var(--plum);font-weight:700;text-decoration:underline">Create an account</button>
+        <div style="margin-top:9px">New accounts start as cashiers. An admin grants access to the rest.</div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-strong)">
+          <a href="board.html">View the menu</a> &mdash; no account needed
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toasts"></div>
+
+<script src="vendor/supabase-js-2.112.4.js"></script>
+<script src="supabase-config.js?v=47"></script>
+<script src="app.js?v=47"></script>
+</body>
+</html>

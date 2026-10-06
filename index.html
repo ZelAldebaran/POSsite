@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2E3D33">
+<!-- The till, the sales log and the staff list have no business in a search
+     result. They render nothing without a session, so this is not about
+     leaking data — it is that searching the restaurant should turn up the
+     menu, not a login screen, and an indexed staff.html advertises the
+     admin surface to anyone curious. board.html is deliberately exempt. -->
+<meta name="robots" content="noindex, nofollow">
+<title>New order | Freddy's Seafood Grill &amp; Restaurant</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png?v=47">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png?v=47">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png?v=47">
+<link rel="manifest" href="site.webmanifest?v=47">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Freddy's Seafood Grill &amp; Restaurant">
+<meta property="og:title" content="New order">
+<meta property="og:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<meta property="og:image:width" content="1204">
+<meta property="og:image:height" content="644">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="freddys.css?v=47">
+</head>
+<body data-page="pos">
+<div id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+      <img class="side-mark" src="site-icon.png?v=47" alt=""
+           width="557" height="866" decoding="async">
+      <div class="side-brand-text">
+      <div class="est">EST &middot; 2024</div>
+      <div class="brand">FREDDY'S</div>
+      <div class="brand-sub">Seafood Grill &amp; Restaurant</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <div class="who">
+        <div class="avatar" id="avatar">F</div>
+        <div>
+          <div class="who-name" id="whoName">&mdash;</div>
+          <span class="role-chip" id="whoRole">&mdash;</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logoutBtn" style="color:#CBD8CD;border-color:rgba(255,255,255,.25)">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">&#9776;</button>
+        <div style="min-width:0">
+          <h2 id="pageTitle">New order</h2>
+          <div class="sub" id="pageSub">Tap a dish to add it to the bill</div>
+        </div>
+      </div>
+      <div class="topbar-actions" id="topActions"></div>
+    </header>
+
+    <section class="page active" id="page-pos">
+
+      <div class="pos">
+        <div>
+          <div class="search-row">
+            <input type="search" id="posSearch" placeholder="Search a dish, drink or dessert…" aria-label="Search the menu">
+          </div>
+          <div class="cat-bar" id="catBar"></div>
+          <div id="menuGrid"></div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-head">
+            <div class="t">Current bill</div>
+            <div class="m" id="ticketMeta">—</div>
+          </div>
+          <div class="lines" id="ticketLines"></div>
+          <div class="ticket-foot">
+            <div class="tot-row"><span>Subtotal</span><span class="v" id="tSub">₱0.00</span></div>
+            <div class="disc-row">
+              <select id="discType" aria-label="Discount type">
+                <option value="0">No discount</option>
+                <option value="20">Senior / PWD — 20%</option>
+                <option value="10">Staff — 10%</option>
+                <option value="custom">Custom amount…</option>
+              </select>
+              <input type="number" id="discCustom" class="money hidden" placeholder="₱0.00" min="0" step="0.01" aria-label="Custom discount amount">
+            </div>
+            <div class="change-note" id="discNote" role="status" aria-live="polite"></div>
+            <div class="tot-row"><span>Discount</span><span class="v" id="tDisc">−₱0.00</span></div>
+            <div class="tot-row grand"><span>Total</span><span class="v" id="tTotal">₱0.00</span></div>
+            <div class="pay-row">
+              <input type="number" id="payCash" class="money" placeholder="Cash ₱" min="0" step="0.01" aria-label="Cash received">
+              <select id="payMode" aria-label="Payment method">
+                <option value="Cash">Cash</option>
+                <option value="GCash">GCash</option>
+                <option value="Card">Card</option>
+              </select>
+            </div>
+            <div class="change-note" id="changeNote"></div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button class="btn btn-ghost btn-sm" id="clearBill" style="flex:0 0 auto">Clear</button>
+              <button class="btn btn-primary" id="chargeBtn" style="flex:1">Charge &amp; print bill</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toasts"></div>
+<div id="printArea"></div>
+
+<script src="vendor/supabase-js-2.112.4.js"></script>
+<script src="supabase-config.js?v=47"></script>
+<script src="app.js?v=47"></script>
+</body>
+</html>

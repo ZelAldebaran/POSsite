@@ -1,0 +1,14 @@
+{
+  "name": "freddys-pos",
+  "version": "33.0.0",
+  "private": true,
+  "description": "Point of sale for Freddy's Seafood Grill & Restaurant, Pagsanjan, Laguna",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "npx --yes serve . -l 5173",
+    "check": "python3 scripts/check_assets.py",
+    "db:push": "supabase db push",
+    "db:diff": "supabase db diff",
+    "db:list": "supabase migration list"
+  }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  One entry, on purpose. board.html is the only page here meant to be found:
+  everything else is the till, and each of those carries a noindex tag. A
+  sitemap that listed them would be asking crawlers to fetch pages this site
+  has already told them to ignore.
+
+  loc matches the <link rel="canonical"> in board.html exactly. If those two
+  ever disagree, Google follows the canonical and treats the sitemap entry as
+  a hint it can discard — so if the site moves to a custom domain, this line
+  and the canonical/og:url/JSON-LD block in board.html change together.
+
+  lastmod is the date the menu board last changed, not the date this file was
+  written. It is a claim about the page, and an inflated one teaches crawlers
+  to stop trusting it. Prices come from the kitchen at runtime, so this only
+  needs touching when the board's own markup changes.
+
+  changefreq and priority are omitted: Google ignores both, and with a single
+  URL priority has nothing to rank against.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://freddysresto.vercel.app/board.html</loc>
+    <lastmod>2026-08-26</lastmod>
+  </url>
+</urlset>

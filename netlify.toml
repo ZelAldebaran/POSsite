@@ -1,0 +1,64 @@
+# Static site — nothing to build, just publish the folder.
+#
+# Inert unless you actually connect Netlify. Kept in step with vercel.json by
+# hand: the CSP, Permissions-Policy and HSTS below are byte-for-byte the same
+# headers Vercel sends, so moving hosts changes nothing the browser sees.
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://uyhbtubxmycofdyuajkn.supabase.co wss://uyhbtubxmycofdyuajkn.supabase.co; manifest-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# A deploy is live the moment it finishes. 304s carry no body, so this costs
+# one round trip. Matches the Cache-Control rules in vercel.json.
+[[headers]]
+  for = "/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Never serve the SQL, the tooling or the docs from the web root. These hold
+# even if .vercelignore / .gitignore never made it into the deployment, which
+# is exactly what happens when a repo is uploaded through a browser rather
+# than pushed with git.
+[[redirects]]
+  from = "/supabase/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.md"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/*.sql"
+  to = "/index.html"
+  status = 404

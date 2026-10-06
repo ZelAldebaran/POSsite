@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+node_modules/
+*.log
+
+# Downloaded backups — keep these off version control.
+Freddys-*.xlsx
+Freddys-*.csv
+Freddys-*.json
+
+# Host state
+.vercel/
+.netlify/

@@ -1,0 +1,668 @@
+:root{
+  --paper:#FBF6F0;
+  --cream:#F3E9E1;
+  --rose:#C9959E;
+  --rose-pale:#EFDCE0;
+  --plum:#5B3541;
+  --plum-deep:#40232C;
+  --pine:#2E3D33;
+  --pine-mid:#3F5346;
+  --kawali:#4A342B;
+  --ink:#33272A;
+  --muted:#8A7278;
+  --line:rgba(91,53,65,.16);
+  --line-strong:rgba(91,53,65,.34);
+  --ok:#2F6B4F;
+  --warn:#B26B23;
+  --danger:#A33B3B;
+  --radius:10px;
+  --radius-sm:6px;
+  --shadow:0 10px 30px rgba(46,61,51,.13);
+  --shadow-sm:0 2px 8px rgba(46,61,51,.09);
+
+  /* ---- console layer ----
+     The work surface stays paper: this room has fluorescent lights and the
+     bills print from the same stylesheet, so a dark canvas would cost
+     legibility for atmosphere. The instrument feeling lives in the chrome —
+     a deep calibrated shell around a bright worktop — and in how things move.
+     The accent is the brand's own rose pushed up to a luminous value rather
+     than an imported neon, so the app still looks like the restaurant. */
+  --console:#161F1D;
+  --console-2:#0E1615;
+  --console-edge:rgba(242,167,179,.20);
+  --glow:#F2A7B3;
+  --glow-soft:rgba(242,167,179,.30);
+  --aqua:#6FD9BE;
+  --ease:cubic-bezier(.2,.9,.25,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --shadow-lift:0 14px 34px rgba(22,31,29,.16), 0 2px 6px rgba(22,31,29,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Karla',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:rgba(201,149,158,.25);
+}
+h1,h2,h3,h4,.slab{font-family:'Zilla Slab',Georgia,serif;letter-spacing:.01em}
+.mono,.money,input.money{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:var(--plum)}
+:focus-visible{outline:2.5px solid var(--rose);outline-offset:2px;border-radius:4px}
+.hidden{display:none !important}
+
+/* ---------- section heading, mirrors the printed menu card ---------- */
+.rule-head{
+  font-family:'Zilla Slab',serif;font-weight:700;font-size:.98rem;
+  text-transform:uppercase;letter-spacing:.13em;color:var(--plum);
+  border-bottom:2px solid var(--plum);padding-bottom:5px;margin-bottom:12px;
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+}
+.rule-head .head-right{display:flex;align-items:baseline;gap:11px;flex-shrink:0}
+/* Quiet until you want it: a destructive control sitting on every heading
+   should not compete with the dish names for attention. */
+.cat-del{
+  font-family:'Karla',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid transparent;
+  padding:0;background:none;transition:color .15s,border-color .15s;
+}
+.cat-del:hover,.cat-del:focus-visible{color:var(--danger);border-bottom-color:var(--danger)}
+.sect-empty{padding:18px;font-size:.82rem;border:1px dashed var(--line);border-radius:var(--radius)}
+
+.rule-head .count{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em;color:var(--muted);font-weight:500}
+
+/* =================== LOGIN =================== */
+#loginScreen{
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px;
+  background:
+    radial-gradient(1200px 500px at 50% -8%, rgba(201,149,158,.5), transparent 60%),
+    linear-gradient(170deg,#35473A 0%,#2E3D33 45%,#26332B 100%);
+}
+.login-card{
+  width:100%;max-width:412px;background:var(--paper);border-radius:16px;
+  box-shadow:0 26px 60px rgba(0,0,0,.34);overflow:hidden;
+  animation:rise .5s cubic-bezier(.32,.72,.3,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.login-band{
+  background:linear-gradient(160deg,var(--rose) 0%,var(--rose-pale) 100%);
+  padding:26px 30px 22px;text-align:center;position:relative;
+}
+.login-band::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:22px;background:var(--paper);
+  border-radius:100% 100% 0 0 / 100% 100% 0 0;
+}
+.est{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.34em;color:var(--plum-deep);opacity:.75}
+.brand{font-family:'Zilla Slab',serif;font-weight:700;font-size:2.1rem;line-height:1;color:var(--plum-deep);letter-spacing:.02em;margin:4px 0 5px}
+.brand-sub{font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum);font-weight:600}
+.login-body{padding:8px 30px 30px}
+.login-body h1{font-size:1.1rem;text-align:center;color:var(--plum-deep);margin-bottom:2px}
+.login-body .hint{text-align:center;font-size:.8rem;color:var(--muted);margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--plum);margin-bottom:6px}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:var(--radius-sm);
+  background:#fff;transition:border-color .16s,box-shadow .16s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,149,158,.22);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:11px 18px;border-radius:var(--radius-sm);font-weight:700;font-size:.88rem;
+  transition:transform .12s,filter .16s,background .16s;border:1.5px solid transparent;
+}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.btn-primary{background:var(--pine);color:#F6F1EA}
+.btn-primary:hover:not(:disabled){filter:brightness(1.14)}
+.btn-rose{background:var(--rose);color:var(--plum-deep)}
+.btn-rose:hover:not(:disabled){filter:brightness(1.05)}
+.btn-ghost{border-color:var(--line-strong);color:var(--plum)}
+.btn-ghost:hover:not(:disabled){background:var(--cream)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover:not(:disabled){filter:brightness(1.1)}
+.btn-block{width:100%}
+.btn-sm{padding:6px 11px;font-size:.78rem;border-radius:var(--radius-sm)}
+.login-msg{
+  margin-top:12px;padding:9px 12px;border-radius:var(--radius-sm);font-size:.83rem;
+  background:rgba(163,59,59,.1);color:var(--danger);border:1px solid rgba(163,59,59,.25);
+}
+.demo-keys{
+  margin-top:20px;padding-top:15px;border-top:1px dashed var(--line-strong);
+  font-size:.75rem;color:var(--muted);line-height:1.75;
+}
+.demo-keys b{color:var(--plum);font-family:'IBM Plex Mono',monospace;font-size:.74rem}
+
+
+/* =================== BRAND MARKS =================== */
+/* The wordmark image is gone from the login band and the board header; both
+   are back to the typographic lockup that .est / .brand / .brand-sub style
+   above, and that board.html still sizes up for the wall. The grill mark
+   stays in the sidebar, where a navy wordmark would disappear against the
+   pine and a small illustration holds. */
+.side-brand{display:flex;align-items:center;gap:11px}
+.side-brand-text{min-width:0}
+.side-mark{width:34px;height:auto;flex-shrink:0;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
+
+/* =================== APP SHELL =================== */
+#app{display:grid;grid-template-columns:214px 1fr;min-height:100dvh}
+.sidebar{
+  background:var(--pine);color:#DCE5DD;display:flex;flex-direction:column;
+  position:sticky;top:0;height:100dvh;
+}
+.side-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.11)}
+.side-brand .brand{font-size:1.28rem;color:var(--rose-pale);margin:2px 0 3px}
+.side-brand .brand-sub{color:rgba(220,229,221,.62);font-size:.55rem}
+.side-brand .est{color:rgba(220,229,221,.5);font-size:.58rem;letter-spacing:.3em}
+.nav{padding:12px 10px;display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto}
+.nav button{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);
+  color:#CBD8CD;font-weight:600;font-size:.87rem;text-align:left;width:100%;transition:background .15s,color .15s;
+}
+.nav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav button.active{background:var(--rose);color:var(--plum-deep)}
+.nav .ico{width:19px;text-align:center;font-size:1rem;flex-shrink:0}
+.nav .tag{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:.62rem;background:rgba(255,255,255,.14);padding:1px 6px;border-radius:20px}
+.nav button.active .tag{background:rgba(64,35,44,.2)}
+.side-foot{padding:14px;border-top:1px solid rgba(255,255,255,.11);font-size:.78rem}
+.who{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.avatar{
+  width:33px;height:33px;border-radius:50%;background:var(--rose);color:var(--plum-deep);
+  display:grid;place-items:center;font-family:'Zilla Slab',serif;font-weight:700;font-size:.95rem;flex-shrink:0;
+}
+.who-name{font-weight:700;color:#EDF2EE;line-height:1.25;word-break:break-word}
+.role-chip{
+  display:inline-block;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  padding:1px 7px;border-radius:20px;margin-top:2px;
+}
+.role-admin{background:var(--rose);color:var(--plum-deep)}
+.role-user{background:rgba(255,255,255,.16);color:#DCE5DD}
+
+.main{display:flex;flex-direction:column;min-width:0}
+.topbar{
+  background:var(--paper);border-bottom:1px solid var(--line);padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  position:sticky;top:0;z-index:20;
+}
+.topbar h2{font-size:1.24rem;color:var(--plum-deep)}
+.topbar .sub{font-size:.78rem;color:var(--muted);margin-top:1px}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.page{padding:22px 24px 60px;display:none;animation:fade .28s ease both}
+.page.active{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.menu-toggle{display:none}
+
+/* =================== CARDS / GRID =================== */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rose)}
+.stat.pine::before{background:var(--pine)}
+.stat.warn::before{background:var(--warn)}
+.stat.danger::before{background:var(--danger)}
+.stat .lbl{font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .val{font-family:'IBM Plex Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--plum-deep);margin-top:5px;line-height:1.1}
+.stat .val.words{
+  font-family:'Zilla Slab',serif;font-size:1.05rem;line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.stat .foot{font-size:.72rem;color:var(--muted);margin-top:3px}
+
+/* =================== POS =================== */
+.pos{display:grid;grid-template-columns:1fr 372px;gap:18px;align-items:start}
+.cat-bar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.cat-bar button{
+  padding:7px 13px;border-radius:20px;border:1.5px solid var(--line-strong);
+  font-size:.79rem;font-weight:600;color:var(--plum);background:#fff;transition:all .15s;
+}
+.cat-bar button:hover{background:var(--cream)}
+.cat-bar button.active{background:var(--plum);border-color:var(--plum);color:var(--paper)}
+.search-row{display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap}
+.search-row input{
+  flex:1;min-width:190px;padding:9px 13px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:#fff;
+}
+.search-row input:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,149,158,.2)}
+
+.menu-sect{margin-bottom:24px}
+.item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:10px}
+.item{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:11px 13px;
+  text-align:left;display:flex;flex-direction:column;gap:5px;transition:border-color .15s,box-shadow .15s,transform .1s;
+  min-height:88px;position:relative;
+}
+.item:hover:not(.out){border-color:var(--rose);box-shadow:0 4px 14px rgba(201,149,158,.24);transform:translateY(-1px)}
+.item .nm{font-family:'Zilla Slab',serif;font-weight:600;font-size:.95rem;color:var(--plum-deep);line-height:1.25}
+.item .sz{font-size:.7rem;color:var(--muted);letter-spacing:.03em}
+.item .pr{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.95rem;color:var(--pine);margin-top:auto}
+.item .stk{font-size:.66rem;font-family:'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.02em}
+.item .stk.ready{color:var(--ok)}
+.item .stk.zero{color:var(--danger);font-weight:600}
+/* the pen-strike from the printed card */
+.item.out{opacity:.62;cursor:not-allowed;background:var(--cream)}
+.item.out .nm,.item.out .pr{text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--danger)}
+
+/* Menu manager reuses the order-screen card so the two panels match. It is a
+   panel rather than a tap target, so it does not lift or tint on hover, and
+   an off-menu card stays fully usable — that is where Put back lives. */
+.mm-item{cursor:default}
+.mm-item:hover{border-color:var(--line);box-shadow:none;transform:none}
+.mm-item.out{opacity:1;cursor:default}
+.mm-item.out .nm,.mm-item.out .pr{opacity:.66}
+.item-actions{
+  display:flex;gap:5px;flex-wrap:wrap;margin-top:9px;padding-top:9px;
+  border-top:1px dashed var(--line);
+}
+.item-actions .btn{padding:3px 9px;font-size:.7rem}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:.88rem}
+
+/* ---- receipt / order panel: the signature element ---- */
+.ticket{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius) var(--radius) 0 0;
+  position:sticky;top:82px;box-shadow:var(--shadow);display:flex;flex-direction:column;max-height:calc(100dvh - 110px);
+}
+.ticket::after{
+  content:"";display:block;height:12px;
+  background:
+    radial-gradient(circle at 6px -3px, transparent 6px, var(--paper) 6.5px) repeat-x;
+  background-size:12px 12px;
+  filter:drop-shadow(0 3px 3px rgba(46,61,51,.1));
+}
+.ticket-head{padding:14px 16px 11px;border-bottom:2px dashed var(--line-strong);text-align:center}
+.ticket-head .t{font-family:'Zilla Slab',serif;font-weight:700;font-size:1.02rem;color:var(--plum-deep);letter-spacing:.02em}
+.ticket-head .m{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:3px;letter-spacing:.04em}
+.lines{flex:1;overflow-y:auto;padding:10px 16px;min-height:80px}
+.line{display:grid;grid-template-columns:1fr auto;gap:3px 10px;padding:8px 0;border-bottom:1px dotted var(--line)}
+.line:last-child{border-bottom:none}
+.line .nm{font-size:.86rem;font-weight:600;color:var(--ink);line-height:1.3}
+.line .sz{font-size:.68rem;color:var(--muted)}
+.line .amt{font-family:'IBM Plex Mono',monospace;font-size:.87rem;font-weight:600;text-align:right;color:var(--plum-deep)}
+.qty{display:flex;align-items:center;gap:6px;margin-top:4px}
+.qty button{
+  width:24px;height:24px;border-radius:5px;border:1.5px solid var(--line-strong);
+  display:grid;place-items:center;font-weight:700;color:var(--plum);background:#fff;line-height:1;
+}
+.qty button:hover{background:var(--rose);border-color:var(--rose);color:var(--plum-deep)}
+.qty .n{font-family:'IBM Plex Mono',monospace;font-weight:600;min-width:24px;text-align:center;font-size:.85rem}
+.qty .unit{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);margin-left:2px}
+/* The remove key is an × at the same 24px as − and +, so it inherits
+   .qty button's square deliberately. Only the colour and hover differ: this
+   is the destructive one, and it fills red rather than rose.
+
+   The glyph is drawn by ::after rather than taken from the markup, so the key
+   reads × whichever build of app.js the host is serving. font-size:0 collapses
+   whatever text the button carries — the word "Remove" on a pre-× build, the
+   × itself on a current one — and ::after then supplies exactly one ×, so it
+   can never double up. width:24px is stated outright because a button with no
+   rendered text will not size itself. The accessible name still comes from
+   aria-label on the element, which reads "Remove <dish>", not "times". */
+.qty .rm{
+  margin-left:auto;color:var(--danger);border-color:rgba(163,59,59,.38);
+  width:24px;min-width:24px;font-size:0;line-height:1;overflow:hidden;
+}
+.qty .rm::after{content:"\00D7";font-size:1rem;line-height:1;font-weight:700}
+.qty .rm:hover,.qty .rm:focus-visible{
+  background:var(--danger);border-color:var(--danger);color:#fff;
+}
+.ticket-foot{padding:12px 16px;border-top:2px dashed var(--line-strong);background:var(--cream)}
+.tot-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;padding:3px 0;color:var(--muted)}
+.tot-row .v{font-family:'IBM Plex Mono',monospace;color:var(--ink);font-weight:500}
+.tot-row.grand{
+  font-family:'Zilla Slab',serif;font-size:1.28rem;font-weight:700;color:var(--plum-deep);
+  border-top:1.5px solid var(--line-strong);margin-top:7px;padding-top:9px;
+}
+.tot-row.grand .v{font-family:'IBM Plex Mono',monospace;font-size:1.28rem;font-weight:600;color:var(--plum-deep)}
+.disc-row{display:flex;gap:7px;margin:9px 0;align-items:center}
+.disc-row select,.disc-row input{
+  flex:1;padding:7px 9px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:#fff;font-size:.82rem;
+}
+.pay-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0}
+.pay-row input{padding:8px 10px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:#fff}
+.change-note{
+  font-family:'IBM Plex Mono',monospace;font-size:.82rem;text-align:right;padding:5px 0;font-weight:600;
+}
+.change-note.ok{color:var(--ok)}
+.change-note.short{color:var(--danger)}
+
+/* =================== TABLES =================== */
+.tbl-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{
+  background:var(--cream);font-family:'Zilla Slab',serif;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--plum);text-align:left;
+  padding:10px 13px;border-bottom:2px solid var(--line-strong);white-space:nowrap;
+}
+tbody td{padding:10px 13px;border-bottom:1px solid var(--line);font-size:.86rem;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(239,220,224,.32)}
+td.num,th.num{text-align:right;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+tbody tr.inactive td:first-child{text-decoration:line-through;text-decoration-color:var(--danger);opacity:.72}
+.pill{
+  display:inline-block;padding:2px 9px;border-radius:20px;font-size:.68rem;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.pill-ok{background:rgba(47,107,79,.13);color:var(--ok)}
+.pill-low{background:rgba(178,107,35,.15);color:var(--warn)}
+.pill-out{background:rgba(163,59,59,.13);color:var(--danger)}
+.pill-void{background:rgba(163,59,59,.13);color:var(--danger)}
+.row-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.filters{display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.filters input,.filters select{
+  padding:8px 11px;border:1.5px solid var(--line);border-radius:var(--radius-sm);background:#fff;font-size:.85rem;
+}
+.filters input[type=search]{min-width:210px;flex:1;max-width:330px}
+
+/* =================== MODAL =================== */
+.overlay{
+  position:fixed;inset:0;background:rgba(38,51,43,.62);backdrop-filter:blur(3px);
+  display:grid;place-items:center;padding:18px;z-index:100;animation:fade .2s ease both;
+}
+.modal{
+  background:var(--paper);border-radius:14px;width:100%;max-width:520px;box-shadow:0 24px 60px rgba(0,0,0,.36);
+  max-height:92dvh;overflow-y:auto;animation:rise .26s cubic-bezier(.32,.72,.3,1) both;
+}
+.modal-head{padding:18px 22px 12px;border-bottom:1px solid var(--line)}
+.modal-head h3{font-size:1.14rem;color:var(--plum-deep)}
+.modal-head p{font-size:.83rem;color:var(--muted);margin-top:3px;line-height:1.5}
+.modal-body{padding:18px 22px}
+.modal-foot{padding:14px 22px 20px;display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.warn-box{
+  background:rgba(163,59,59,.07);border:1.5px solid rgba(163,59,59,.28);border-radius:var(--radius-sm);
+  padding:13px 15px;font-size:.85rem;line-height:1.6;color:#7A2E2E;
+}
+.warn-box ul{margin:8px 0 0 17px}
+.warn-box li{margin-bottom:3px}
+.step{
+  display:flex;gap:12px;padding:13px 0;border-bottom:1px dashed var(--line-strong);align-items:flex-start;
+}
+.step:last-child{border-bottom:none}
+.step-n{
+  width:26px;height:26px;border-radius:50%;background:var(--cream);border:1.5px solid var(--line-strong);
+  display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.8rem;
+  color:var(--plum);flex-shrink:0;
+}
+.step.done .step-n{background:var(--ok);border-color:var(--ok);color:#fff}
+.step-b{flex:1;min-width:0}
+.step-b h4{font-size:.92rem;color:var(--plum-deep);margin-bottom:3px}
+.step-b p{font-size:.8rem;color:var(--muted);line-height:1.55;margin-bottom:9px}
+.checks{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.checks label{display:flex;gap:9px;align-items:flex-start;font-size:.85rem;cursor:pointer;line-height:1.45}
+.checks input{margin-top:3px;accent-color:var(--plum);width:15px;height:15px;flex-shrink:0}
+
+/* =================== TOAST =================== */
+#toasts{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:9px;z-index:200}
+.toast{
+  background:var(--pine);color:#EEF3EE;padding:11px 17px;border-radius:var(--radius-sm);
+  box-shadow:var(--shadow);font-size:.86rem;font-weight:600;max-width:330px;
+  animation:rise .25s ease both;border-left:4px solid var(--rose);
+}
+.toast.err{border-left-color:var(--danger)}
+.toast.ok{border-left-color:#7FCB9E}
+
+/* =================== PRINTED BILL =================== */
+#printArea{display:none}
+.bill{
+  width:302px;margin:0 auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#000;line-height:1.6;
+}
+.bill .ctr{text-align:center}
+.bill .bname{font-family:'Zilla Slab',serif;font-size:17px;font-weight:700;letter-spacing:.04em}
+.bill .sep{border-top:1px dashed #000;margin:7px 0}
+.bill table{width:100%;border-collapse:collapse}
+.bill td{padding:1.5px 0;vertical-align:top;border:none;font-size:11.5px}
+.bill td.r{text-align:right;white-space:nowrap;padding-left:8px}
+.bill .big{font-size:14px;font-weight:600}
+@media print{
+  @page{margin:8mm}
+  body{background:#fff}
+  body *{visibility:hidden}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{display:block !important;position:absolute;left:0;top:0;width:100%}
+}
+
+/* =================== WAITING FOR APPROVAL ===================
+   Replaces the whole app shell, so a pending account never sees a sidebar
+   full of things that would refuse them. */
+.pending-wrap{min-height:100dvh;display:grid;place-items:center;padding:24px;background:var(--paper)}
+.pending-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:34px 30px;max-width:430px;text-align:center;
+}
+.pending-card .est{font-size:.62rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.pending-card .brand{font-family:'Zilla Slab',serif;font-size:1.7rem;font-weight:700;color:var(--plum-deep);letter-spacing:.04em}
+.pending-card .brand-sub{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.pending-card h3{font-family:'Zilla Slab',serif;font-size:1.15rem;color:var(--plum-deep);margin-bottom:9px}
+.pending-card p{font-size:.87rem;color:var(--ink);line-height:1.65;margin-bottom:11px}
+.pending-card p.muted{font-size:.8rem;color:var(--muted)}
+/* ---- charge confirmation: a read-back of the bill before it is committed ---- */
+.cf-lines{
+  border:1px solid var(--line);border-radius:var(--radius-sm);
+  max-height:190px;overflow:auto;background:#fff;
+}
+.cf-line{
+  display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:baseline;
+  padding:7px 11px;border-bottom:1px dashed var(--line);font-size:.86rem;
+}
+.cf-line:last-child{border-bottom:none}
+.cf-line .q{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted)}
+.cf-line .n em{font-style:normal;font-size:.76rem;color:var(--muted)}
+.cf-line .a{font-family:'IBM Plex Mono',monospace}
+.cf-tot{margin-top:13px;display:flex;flex-direction:column;gap:5px}
+.cf-row{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem}
+.cf-row span:last-child{font-family:'IBM Plex Mono',monospace}
+.cf-row.disc span:last-child{color:var(--danger)}
+.cf-row.grand{
+  border-top:1.5px solid var(--line-strong);margin-top:5px;padding-top:8px;
+  font-family:'Zilla Slab',serif;font-weight:700;font-size:1.18rem;color:var(--plum-deep);
+}
+.cf-row.grand span:last-child{font-family:'IBM Plex Mono',monospace;font-size:1.18rem}
+/* The number most likely to be fumbled at a busy counter, so it gets weight. */
+.cf-row.change{
+  background:rgba(47,107,79,.09);border-radius:5px;padding:6px 9px;margin-top:4px;
+  color:var(--ok);font-weight:700;
+}
+.cf-row.change span:last-child{font-size:1rem}
+
+/* A text link that is really a button — used for the rare escape hatch that
+   should not look as loud as the action beside it. */
+.linkish{
+  font-family:'Karla',sans-serif;font-size:.78rem;font-weight:600;color:var(--muted);
+  background:none;padding:0;text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:var(--line-strong);transition:color .15s;
+}
+.linkish:hover,.linkish:focus-visible{color:var(--plum)}
+
+.pending-actions{display:flex;gap:9px;justify-content:center;margin-top:19px;flex-wrap:wrap}
+
+/* =================== CONSOLE LAYER =================== */
+
+/* ---- the shell reads as one instrument, lit from inside ---- */
+.sidebar{
+  background:linear-gradient(178deg,var(--console) 0%,var(--console-2) 100%);
+  border-right:1px solid rgba(255,255,255,.06);
+  box-shadow:inset -1px 0 0 var(--console-edge);
+}
+.topbar{
+  background:rgba(251,246,240,.82);
+  backdrop-filter:saturate(1.4) blur(14px);
+  -webkit-backdrop-filter:saturate(1.4) blur(14px);
+}
+
+/* ---- icons ---- */
+.nav .ico{width:19px;height:19px;display:grid;place-items:center;opacity:.82;transition:opacity .2s var(--ease)}
+.nav .ico svg{width:19px;height:19px;display:block}
+.nav a.nav-link:hover .ico,
+.nav a.nav-link.active .ico{opacity:1}
+
+/* ---- SIGNATURE: the active rail.
+   A luminous bar grows from nothing to full height when a panel takes focus,
+   and the row behind it lights rather than filling with a flat colour. It is
+   the one piece of theatre in the app, and it earns its place by answering
+   "where am I" from the corner of the eye during service. ---- */
+.nav a.nav-link{
+  position:relative;border-radius:9px;
+  transition:background .2s var(--ease),color .2s var(--ease);
+}
+.nav a.nav-link::before{
+  content:'';position:absolute;left:-10px;top:50%;translate:0 -50%;
+  width:3px;height:0;border-radius:0 3px 3px 0;
+  background:var(--glow);box-shadow:0 0 12px var(--glow-soft);
+  transition:height .34s var(--ease-out);
+}
+.nav a.nav-link.active::before{height:64%}
+.nav a.nav-link.active{
+  background:linear-gradient(90deg,rgba(242,167,179,.17),rgba(242,167,179,.03));
+  color:#FFF3F5;
+}
+.nav a.nav-link.active .tag{background:rgba(242,167,179,.22);color:#FFE7EB}
+.nav a.nav-link:hover:not(.active){background:rgba(255,255,255,.07);color:#fff}
+
+/* ---- surfaces: crisper edges, light that falls rather than a flat drop ---- */
+.card,.stat{border-radius:12px;box-shadow:var(--shadow-sm);transition:box-shadow .25s var(--ease),border-color .25s var(--ease)}
+.card:hover{box-shadow:var(--shadow-lift)}
+
+/* ---- the order tiles are the thing hands touch most ---- */
+.item{transition:transform .18s var(--ease),box-shadow .22s var(--ease),border-color .22s var(--ease)}
+.item:not(.out):not(.mm-item):hover{
+  transform:translateY(-2px);
+  border-color:var(--rose);
+  box-shadow:0 8px 22px rgba(201,149,158,.24);
+}
+.item:not(.out):not(.mm-item):active{transform:translateY(0) scale(.985)}
+
+/* ---- controls answer the finger ---- */
+.btn{transition:transform .14s var(--ease),filter .18s var(--ease),background .18s var(--ease),box-shadow .22s var(--ease)}
+.btn:active:not(:disabled){transform:scale(.97)}
+.btn-primary:hover:not(:disabled){box-shadow:0 6px 18px rgba(46,61,51,.26)}
+.btn-rose:hover:not(:disabled){box-shadow:0 6px 18px var(--glow-soft)}
+:focus-visible{outline:2.5px solid var(--glow);outline-offset:2px}
+
+/* ---- arrival: things enter, they do not blink into place ---- */
+@keyframes riseIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{animation:riseIn .26s var(--ease-out) both}
+.modal-backdrop,.modal-wrap{animation:fadeIn .18s ease both}
+.toast{animation:riseIn .24s var(--ease-out) both}
+
+/* ---- the readout.
+   The total is the number the cashier reads aloud, so it is set like an
+   instrument display and flashes once when it changes — enough to catch a
+   mis-tap, not enough to nag. ---- */
+#tTotal{letter-spacing:.01em;transition:color .2s var(--ease)}
+@keyframes readout{0%{color:var(--glow);text-shadow:0 0 14px var(--glow-soft)}100%{color:inherit;text-shadow:none}}
+#tTotal.tick{animation:readout .5s var(--ease-out)}
+
+/* ---- who is at this terminal, lit like a status lamp ---- */
+.avatar{
+  background:linear-gradient(150deg,var(--glow),var(--rose));
+  box-shadow:0 0 0 1px rgba(242,167,179,.34),0 0 16px rgba(242,167,179,.20);
+}
+.role-admin{background:rgba(242,167,179,.24);color:#FFE7EB;box-shadow:inset 0 0 0 1px rgba(242,167,179,.34)}
+.side-foot{border-top-color:rgba(242,167,179,.14)}
+
+/* ---- scrollbars, since half the app is a scrolling list ---- */
+*{scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
+*::-webkit-scrollbar{width:9px;height:9px}
+*::-webkit-scrollbar-thumb{background:var(--line);border-radius:20px;border:2px solid transparent;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background:var(--line-strong);background-clip:padding-box}
+*::-webkit-scrollbar-track{background:transparent}
+.sidebar *::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);background-clip:padding-box}
+
+/* =================== CROSS-PAGE TRANSITIONS ===================
+   Each panel is a separate document, so a nav click used to blank the whole
+   window — sidebar and all — before redrawing it. Naming the parts that are
+   identical on every page lets the browser hold them still and cross-fade
+   only the panel underneath. Browsers without view transitions simply
+   navigate as before. */
+@view-transition { navigation: auto; }
+
+.sidebar{view-transition-name:sidebar}
+.topbar{view-transition-name:topbar}
+
+::view-transition-old(root),
+::view-transition-new(root){animation-duration:.16s}
+::view-transition-group(sidebar),
+::view-transition-group(topbar){animation-duration:.16s}
+
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*){animation:none !important}
+}
+
+/* =================== LOADING PLACEHOLDERS ===================
+   Shown only on a cold start, when there is nothing cached to draw. Better a
+   shape in the right place than an empty page that jumps when data lands. */
+.skel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.skel-line{
+  height:11px;margin:11px 13px;border-radius:5px;
+  background:linear-gradient(90deg,var(--cream) 25%,#fff 50%,var(--cream) 75%);
+  background-size:280% 100%;animation:shimmer 1.25s ease-in-out infinite;
+}
+.skel-line.short{width:44%}
+@keyframes shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
+@media(prefers-reduced-motion:reduce){.skel-line{animation:none}}
+
+/* =================== RESPONSIVE =================== */
+@media(max-width:1080px){.pos{grid-template-columns:1fr 330px}}
+@media(max-width:900px){
+  #app{grid-template-columns:1fr}
+  .sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:238px;z-index:60;
+    transform:translateX(-100%);transition:transform .26s cubic-bezier(.32,.72,.3,1);
+  }
+  .sidebar.open{transform:none;box-shadow:0 0 44px rgba(0,0,0,.42)}
+  .menu-toggle{
+    display:grid;place-items:center;width:38px;height:38px;border-radius:var(--radius-sm);
+    border:1.5px solid var(--line-strong);color:var(--plum);font-size:1.15rem;flex-shrink:0;
+  }
+  .topbar{padding:12px 16px}
+  .topbar h2{font-size:1.08rem}
+  .page{padding:16px 16px 90px}
+  .pos{grid-template-columns:1fr}
+  .ticket{position:static;max-height:none;order:-1}
+  #scrim{position:fixed;inset:0;background:rgba(38,51,43,.5);z-index:50}
+}
+@media(max-width:620px){
+  .item-grid{grid-template-columns:repeat(auto-fill,minmax(142px,1fr))}
+  .grid2{grid-template-columns:1fr}
+  .modal-foot{flex-direction:column-reverse}
+  .modal-foot .btn{width:100%}
+  /* tables collapse into cards, same trick as the KRAFTED admin panels */
+  .tbl-wrap thead{display:none}
+  .tbl-wrap tbody tr{display:block;padding:11px 13px;border-bottom:1px solid var(--line)}
+  .tbl-wrap tbody td{
+    display:flex;justify-content:space-between;gap:14px;padding:4px 0;border:none;text-align:right;
+  }
+  .tbl-wrap tbody td::before{
+    content:attr(data-label);font-family:'Zilla Slab',serif;font-weight:700;font-size:.68rem;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--plum);text-align:left;flex-shrink:0;
+  }
+  .row-actions{justify-content:flex-end}
+  #toasts{left:14px;right:14px;bottom:14px}
+  .toast{max-width:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+
+/* ---- multi-page nav: links, styled like the old buttons ----
+   Layout only, and only the properties the CONSOLE LAYER above does not
+   already set. This block sits later in the file, so anything it re-declares
+   wins on equal specificity. It used to carry its own `:hover`, `.active` and
+   `.active .tag` rules — which silently replaced the gradient with a flat rose
+   fill and let a hover overwrite the active row — plus a `border-radius` and
+   `transition` that quietly beat the 9px and the eased timing the rail
+   geometry is built around. Add nothing here that appears above. */
+.nav a.nav-link{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  color:#CBD8CD;font-weight:600;font-size:.87rem;text-decoration:none;
+}
+
+/* The one nav entry that leads to a page with no sidebar of its own. The tag
+   says who that page is really for. */
+.nav a.nav-standalone .tag{background:rgba(201,149,158,.26);color:#F3E3E6}

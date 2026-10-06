@@ -1,0 +1,20 @@
+{
+  "name": "Freddy's Seafood Grill & Restaurant",
+  "short_name": "Freddy's POS",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#2E3D33",
+  "theme_color": "#2E3D33",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

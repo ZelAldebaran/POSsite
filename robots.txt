@@ -1,0 +1,30 @@
+# The public menu board is the only page worth finding. Everything else is the
+# till: it renders nothing without a session, but an indexed sales log or staff
+# list advertises the admin surface for no benefit, and searching the
+# restaurant should land a diner on the menu rather than a sign-in screen.
+#
+# Each of those pages also carries <meta name="robots" content="noindex">,
+# because this file is a request and that tag is the one crawlers honour once
+# they have already fetched the page.
+#
+# "/" serves index.html — the same till page — so it is disallowed too. The "$"
+# anchors that rule to the bare root and nothing below it; a plain "Disallow: /"
+# would also block freddys.css, app.js and the icons, and Googlebot that cannot
+# fetch a page's stylesheet renders it broken and ranks it accordingly. An
+# earlier "Allow: /$" here said the opposite of the paragraph above it.
+
+User-agent: *
+Allow: /board.html
+Disallow: /$
+Disallow: /index.html
+Disallow: /login.html
+Disallow: /menu.html
+Disallow: /sales.html
+Disallow: /inventory.html
+Disallow: /staff.html
+Disallow: /settings.html
+Disallow: /account.html
+
+# Absolute, and pinned to the live host: the sitemap protocol requires a full
+# URL here, and a crawler that reads this file has no base to resolve against.
+Sitemap: https://freddysresto.vercel.app/sitemap.xml

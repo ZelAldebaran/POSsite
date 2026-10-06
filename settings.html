@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2E3D33">
+<!-- The till, the sales log and the staff list have no business in a search
+     result. They render nothing without a session, so this is not about
+     leaking data — it is that searching the restaurant should turn up the
+     menu, not a login screen, and an indexed staff.html advertises the
+     admin surface to anyone curious. board.html is deliberately exempt. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Settings &amp; backups | Freddy's Seafood Grill &amp; Restaurant</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png?v=47">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png?v=47">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png?v=47">
+<link rel="manifest" href="site.webmanifest?v=47">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Freddy's Seafood Grill &amp; Restaurant">
+<meta property="og:title" content="Settings &amp; backups">
+<meta property="og:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://freddysresto.vercel.app/og-freddys.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="freddys.css?v=47">
+</head>
+<body data-page="settings">
+<div id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand">
+      <img class="side-mark" src="site-icon.png?v=47" alt=""
+           width="557" height="866" decoding="async">
+      <div class="side-brand-text">
+      <div class="est">EST &middot; 2024</div>
+      <div class="brand">FREDDY'S</div>
+      <div class="brand-sub">Seafood Grill &amp; Restaurant</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <div class="who">
+        <div class="avatar" id="avatar">F</div>
+        <div>
+          <div class="who-name" id="whoName">&mdash;</div>
+          <span class="role-chip" id="whoRole">&mdash;</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-block" id="logoutBtn" style="color:#CBD8CD;border-color:rgba(255,255,255,.25)">Sign out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">&#9776;</button>
+        <div style="min-width:0">
+          <h2 id="pageTitle">Settings &amp; backups</h2>
+          <div class="sub" id="pageSub">Restaurant details, backups, reset</div>
+        </div>
+      </div>
+      <div class="topbar-actions" id="topActions"></div>
+    </header>
+
+    <section class="page active" id="page-settings">
+
+      <div class="card" style="max-width:640px;margin-bottom:18px">
+        <div class="rule-head">Restaurant details <span class="count">printed on every bill</span></div>
+        <div class="grid2">
+          <div class="field"><label for="stName">Name</label><input id="stName"></div>
+          <div class="field"><label for="stPhone">Contact number</label><input id="stPhone"></div>
+        </div>
+        <div class="field"><label for="stAddr">Address</label><input id="stAddr"></div>
+        <div class="grid2">
+          <div class="field"><label for="stHours">Opening hours</label><input id="stHours"></div>
+          <div class="field"><label for="stVat">VAT rate (%) — bill shows this as VAT-inclusive</label><input id="stVat" type="number" min="0" max="30" step="0.5" class="money"></div>
+        </div>
+        <div class="field"><label for="stFooter">Bill footer line</label><input id="stFooter"></div>
+        <button class="btn btn-primary btn-sm" id="saveSettings">Save details</button>
+      </div>
+
+      <div class="card" style="max-width:640px;margin-bottom:18px">
+        <div class="rule-head">At the till <span class="count">applies to every terminal</span></div>
+        <div class="field">
+          <label for="stConfirm">Confirm before charging</label>
+          <select id="stConfirm">
+            <option value="always">Always — read back every bill</option>
+            <option value="over">Only larger or discounted bills</option>
+            <option value="never">Never — charge straight away</option>
+          </select>
+        </div>
+        <div class="field hidden" id="stConfirmOverField">
+          <label for="stConfirmOver">Read back bills of at least (₱)</label>
+          <input id="stConfirmOver" type="number" min="0" step="10" class="money">
+        </div>
+        <p id="stConfirmWhy" style="font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:13px"></p>
+        <div class="field">
+          <label for="stDiscMax">Largest custom discount (% of the bill)</label>
+          <input id="stDiscMax" type="number" min="0" max="100" step="1" class="money">
+        </div>
+        <p style="font-size:.8rem;color:var(--muted);line-height:1.65;margin-bottom:13px">
+          Applies only to the amount a cashier types in. Senior/PWD 20% and Staff 10% are
+          unaffected. 100 means no limit, which is how it ships — the till refuses anything
+          above whatever you set here, and the check is on the server, so it holds whatever
+          the terminal sends.
+        </p>
+        <button class="btn btn-primary btn-sm" id="saveTill">Save till settings</button>
+      </div>
+
+      <div class="card" style="max-width:640px;margin-bottom:18px">
+        <div class="rule-head">Backups</div>
+        <p style="font-size:.86rem;color:var(--muted);line-height:1.65;margin-bottom:13px">
+          Excel workbook with one sheet each for sales, bill lines, the menu and how much of each dish has been ordered.
+          Keep one before every reset — the reset flow makes you download it first.
+        </p>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" id="dlExcel">Download Excel backup</button>
+          <button class="btn btn-ghost btn-sm" id="dlJson">Download JSON backup</button>
+          <!-- Restore is deliberately absent on a shared database: the way back
+               is a Postgres restore, not one browser overwriting everyone's
+               books. wireSettings() also sets this, but the safe state belongs
+               in the markup — with scripts blocked, the old version rendered an
+               enabled "Restore from JSON…" button next to a file picker that
+               nothing was listening to. -->
+          <button class="btn btn-ghost btn-sm" id="restoreBtn" disabled
+                  title="Restore from Supabase → Database → Backups, so one terminal cannot overwrite the shared books.">Restoring? Use a Supabase backup</button>
+        </div>
+      </div>
+
+      <div class="card" style="max-width:640px;border-color:rgba(163,59,59,.35)">
+        <div class="rule-head" style="color:var(--danger);border-color:var(--danger)">Danger zone</div>
+        <p style="font-size:.86rem;color:var(--muted);line-height:1.65;margin-bottom:13px">
+          Clearing the sales history can't be undone from inside the app, and it empties
+          Inventory with it — your Excel backup is the only way back.
+        </p>
+        <button class="btn btn-danger btn-sm" id="resetBtn">Reset the sales log…</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toasts"></div>
+<div id="printArea"></div>
+
+<script src="vendor/supabase-js-2.112.4.js"></script>
+<script src="supabase-config.js?v=47"></script>
+<script src="app.js?v=47"></script>
+</body>
+</html>
