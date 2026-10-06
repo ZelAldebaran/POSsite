@@ -27,4 +27,4 @@ Disallow: /account.html
 
 # Absolute, and pinned to the live host: the sitemap protocol requires a full
 # URL here, and a crawler that reads this file has no base to resolve against.
-Sitemap: https://freddysresto.vercel.app/sitemap.xml
+Sitemap: https://postres-rouge.vercel.app/sitemap.xml
