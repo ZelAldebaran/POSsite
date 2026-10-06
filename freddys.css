@@ -666,3 +666,39 @@ tbody tr.inactive td:first-child{text-decoration:line-through;text-decoration-co
 /* The one nav entry that leads to a page with no sidebar of its own. The tag
    says who that page is really for. */
 .nav a.nav-standalone .tag{background:rgba(201,149,158,.26);color:#F3E3E6}
+
+/* =================== CURRENT BILL — COMPACT OVERRIDE ===================
+   The bill panel is capped at the window height, and the old header plus the
+   tall footer (discount, note, totals, payment, buttons) left the item list
+   squeezed to about one line with its own scrollbar. This block, kept last so
+   it wins, slims the header to one row and tightens the footer so the lines
+   get the room. Delete it to go back to the original look. */
+.ticket-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding:9px 14px 8px;text-align:left;border-bottom-width:1.5px;
+}
+.ticket-head .t{font-size:.95rem}
+.ticket-head .m{margin-top:0;font-size:.66rem;text-align:right;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+.lines{flex:1 1 auto;min-height:170px;padding:6px 14px}
+.line{padding:6px 0}
+
+.ticket-foot{padding:8px 14px 10px;border-top-width:1.5px}
+.tot-row{padding:1px 0;font-size:.8rem}
+.tot-row.grand{margin-top:4px;padding-top:6px;font-size:1.1rem}
+.tot-row.grand .v{font-size:1.1rem}
+.disc-row{margin:6px 0}
+.disc-row select,.disc-row input{padding:6px 9px}
+.pay-row{margin:6px 0}
+.pay-row input,.pay-row select{padding:7px 10px}
+.change-note{padding:2px 0;font-size:.78rem}
+#discNote{font-size:.7rem;line-height:1.35;font-weight:500;text-align:left;color:var(--muted)}
+#discNote:empty,#changeNote:empty{display:none}
+
+@media(max-height:760px){
+  .lines{min-height:110px}
+}
+@media(max-width:900px){
+  .lines{min-height:0}
+}
